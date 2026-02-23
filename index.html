@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Miss You - Ammar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Floating Sunflowers Background */
+        #floating-sunflowers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-sunflower {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0;
+            animation: float-around 8s ease-in-out infinite;
+        }
+
+        @keyframes float-around {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Main Photo Card */
+        .photo-card {
+            position: relative;
+            width: 500px;
+            height: 700px;
+            background: linear-gradient(145deg, #fff5e6 0%, #ffe4b5 100%);
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.4),
+                inset 0 0 60px rgba(255,215,0,0.1);
+            z-index: 10;
+            transform: scale(0.9);
+            animation: card-entrance 1s ease-out forwards;
+        }
+
+        @keyframes card-entrance {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Cute Decorative Frame */
+        .cute-frame {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 4px solid #FFD700;
+            border-radius: 40px;
+            pointer-events: none;
+            z-index: 20;
+            box-shadow: 
+                0 0 20px rgba(255,215,0,0.5),
+                inset 0 0 20px rgba(255,215,0,0.2);
+        }
+
+        .cute-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px dashed #FFA500;
+            border-radius: 30px;
+            opacity: 0.6;
+        }
+
+        /* Corner Decorations */
+        .corner-decoration {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 21;
+        }
+
+        .corner-decoration.top-left {
+            top: -25px;
+            left: -25px;
+            transform: rotate(-45deg);
+        }
+
+        .corner-decoration.top-right {
+            top: -25px;
+            right: -25px;
+            transform: rotate(45deg);
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: -25px;
+            left: -25px;
+            transform: rotate(-135deg);
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: -25px;
+            right: -25px;
+            transform: rotate(135deg);
+        }
+
+        .corner-decoration::before {
+            content: '🌻';
+            font-size: 40px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* Photo Container */
+        .photo-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .main-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.1) saturate(1.1);
+        }
+
+        /* Anime Eyes Overlay */
+        .anime-eyes-container {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 15;
+            animation: eyes-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes eyes-bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .anime-eye {
+            width: 70px;
+            height: 50px;
+            background: white;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.2),
+                inset -2px -2px 6px rgba(0,0,0,0.1),
+                0 0 30px rgba(100,200,255,0.4);
+            overflow: hidden;
+            position: relative;
+            animation: blink 4s infinite;
+        }
+
+        @keyframes blink {
+            0%, 96%, 100% { transform: scaleY(1); }
+            98% { transform: scaleY(0.1); }
+        }
+
+        .iris {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #8B4513 0%, #654321 50%, #3d2817 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .iris::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle at 30% 30%, #000 0%, #333 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .iris::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            top: 20%;
+            left: 25%;
+            box-shadow: 
+                12px 6px 0 -2px rgba(255,255,255,0.8),
+                -6px 12px 0 -3px rgba(255,255,255,0.6);
+        }
+
+        .eye-shine {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        /* Text Under Eyes */
+        .eyes-text {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(255,105,180,0.8),
+                0 0 20px rgba(255,105,180,0.5),
+                0 2px 4px rgba(0,0,0,0.3);
+            font-weight: bold;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            z-index: 15;
+            font-family: 'Courier New', monospace;
+            animation: text-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes text-glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,105,180,0.8), 0 0 20px rgba(255,105,180,0.5), 0 2px 4px rgba(0,0,0,0.3); }
+            50% { text-shadow: 0 0 20px rgba(255,105,180,1), 0 0 40px rgba(255,105,180,0.8), 0 2px 4px rgba(0,0,0,0.3); }
+        }
+
+        /* Bottom Text */
+        .message-container {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 100%;
+            z-index: 15;
+        }
+
+        .main-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B4513;
+            text-shadow: 
+                2px 2px 4px rgba(255,255,255,0.8),
+                0 0 20px rgba(255,215,0,0.5);
+            line-height: 1.4;
+            font-family: 'Georgia', serif;
+            animation: message-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes message-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .heart-emoji {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        /* Sparkles around photo */
+        .sparkle {
+            position: absolute;
+            color: #FFD700;
+            font-size: 24px;
+            animation: sparkle-anim 2s ease-in-out infinite;
+            z-index: 14;
+            text-shadow: 0 0 10px rgba(255,215,0,0.8);
+        }
+
+        @keyframes sparkle-anim {
+            0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 1; }
+        }
+
+        /* Floating hearts */
+        .floating-heart {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 20px;
+            animation: float-heart 4s ease-in infinite;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        @keyframes float-heart {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-400px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .photo-card {
+                width: 90vw;
+                height: auto;
+                padding: 15px;
+            }
+            .photo-container {
+                height: 350px;
+            }
+            .main-message {
+                font-size: 18px;
+            }
+            .anime-eye {
+                width: 50px;
+                height: 35px;
+            }
+            .iris {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <!-- Floating Sunflowers Background -->
+        <div id="floating-sunflowers"></div>
+
+        <!-- Floating Hearts -->
+        <div id="floating-hearts"></div>
+
+        <!-- Main Photo Card -->
+        <div class="photo-card">
+            <!-- Cute Frame -->
+            <div class="cute-frame"></div>
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+
+            <!-- Sparkles -->
+            <div class="sparkle" style="top: 60px; left: 30px; animation-delay: 0s;">✨</div>
+            <div class="sparkle" style="top: 100px; right: 30px; animation-delay: 0.5s;">⭐</div>
+            <div class="sparkle" style="top: 200px; left: 10px; animation-delay: 1s;">✨</div>
+            <div class="sparkle" style="top: 150px; right: 10px; animation-delay: 1.5s;">⭐</div>
+
+            <!-- Anime Eyes -->
+            <div class="anime-eyes-container">
+                <div class="anime-eye">
+                    <div class="iris"></div>
+                    <div class="eye-shine"></div>
+                </div>
+                <div class="anime-eye">
+                    <div class="iris"></div>
+                    <div class="eye-shine"></div>
+                </div>
+            </div>
+
+            <!-- Text Under Eyes -->
+            <div class="eyes-text">my eyes only looks for you</div>
+
+            <!-- Photo Container -->
+            <div class="photo-container">
+                <img src="IMG_9187.png" alt="Ammar" class="main-photo" id="main-photo">
+            </div>
+
+            <!-- Bottom Message -->
+            <div class="message-container">
+                <div class="main-message">
+                    I miss every moment<br>
+                    with you Ammar<br>
+                    <span class="heart-emoji">💛</span><span class="heart-emoji">🌻</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating sunflower SVG
+        function createSunflowerSVG() {
+            return `
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="petalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <g transform="translate(50,50)">
+                    ${Array.from({length: 12}, (_, i) => {
+                        return `<ellipse cx="0" cy="-35" rx="8" ry="25" fill="url(#petalGrad)" transform="rotate(${i * 30})"/>`;
+                    }).join('')}
+                    <circle cx="0" cy="0" r="20" fill="#8B4513"/>
+                    <circle cx="0" cy="0" r="15" fill="#654321"/>
+                    ${Array.from({length: 8}, (_, i) => {
+                        const angle = (i * 45) * Math.PI / 180;
+                        const x = Math.cos(angle) * 10;
+                        const y = Math.sin(angle) * 10;
+                        return `<circle cx="${x}" cy="${y}" r="2" fill="#4a3728"/>`;
+                    }).join('')}
+                </g>
+            </svg>`;
+        }
+
+        // Create floating sunflowers randomly across the whole scene
+        function createFloatingSunflowers() {
+            const container = document.getElementById('floating-sunflowers');
+            
+            setInterval(() => {
+                const sunflower = document.createElement('div');
+                sunflower.className = 'floating-sunflower';
+                sunflower.innerHTML = createSunflowerSVG();
+                sunflower.style.left = Math.random() * 100 + '%';
+                sunflower.style.animationDuration = (6 + Math.random() * 4) + 's';
+                sunflower.style.animationDelay = Math.random() * 2 + 's';
+                sunflower.style.width = (30 + Math.random() * 40) + 'px';
+                sunflower.style.height = sunflower.style.width;
+                container.appendChild(sunflower);
+                
+                setTimeout(() => {
+                    sunflower.remove();
+                }, 10000);
+            }, 800);
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floating-hearts');
+            const hearts = ['💛', '🌻', '💕', '💖', '✨'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.bottom = '0';
+                heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 7000);
+            }, 1200);
+        }
+
+        // Initialize
+        window.onload = function() {
+            createFloatingSunflowers();
+            createFloatingHearts();
+        };
+
+        // Handle image loading error
+        document.getElementById('main-photo').onerror = function() {
+            this.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
+            this.alt = 'Photo';
+        };
+    </script>
+</body>
+</html>
